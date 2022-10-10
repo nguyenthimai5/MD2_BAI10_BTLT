@@ -163,10 +163,10 @@ public class StudentManagement {
     public static void updateStudent(Scanner sc) {
         System.out.println("Nhap vao ma sinh vien can cap nhat");
         String updateStudent = sc.nextLine();
-        sc.nextLine();
-        Student student = new Student();
-        if (updateStudent == student.getStudentId()) {
-            student.inputData(sc);
+        for (Student studentUpDate : studentList) {
+            if (updateStudent == studentUpDate.getStudentId()) {
+                studentUpDate.inputData(sc);
+            }
         }
 
 
@@ -186,7 +186,7 @@ public class StudentManagement {
     }
 
     public static void inputClass(Scanner scanner) {
-        System.out.println("Nhap vao so lop can nhap");
+        System.out.println("Nhap vao so lop can nhap thong tin");
         scanner.nextLine();
         int cnt = scanner.nextInt();
         for (int i = 0; i < cnt; i++) {
@@ -203,60 +203,70 @@ public class StudentManagement {
         }
     }
 
-//    @Override
-//    public int compare(Student o1, Student o2) {
-//        return (int) o1.callAvgMark() - (int) o2.callAvgMark();
-//    }
 
     public static void searchStudent(Scanner scanner) {
         System.out.println("Nhập vào tên sv muốn tìm:");
-        scanner.nextLine();
         String studentNameSearch = scanner.nextLine();
-        Student student = new Student();
-        for (int i = 0; i < lenghtStudent; i++) {
-            if (student.getStudentName().startsWith(studentNameSearch)) {
-                studentList.get(i).displayData();
+        boolean exitStudent = false;
+        for (Student student : studentList) {
+            if (student.getStudentName().contains(studentNameSearch)) {
+                student.displayData();
+                exitStudent = true;
             }
+        }
+        if (!exitStudent) {
+            System.out.println("SV khong co trong danh sach:");
         }
     }
 
     public static void thongKeStudent() {
-        Student student = new Student();
-        for (int i = 0; i < lenghtStudent; i++) {
-            if (student.getGpa() == "Gioi") {
-                studentList.get(i).displayData();
+        int count=0;
+        for (Student student:studentList) {
+            if (student.callAvgMark() >9) {
+                System.out.println("SV dat loai gioi:");
+                student.displayData();
+
             }
-            if (student.getGpa() == "Kha") {
-                studentList.get(i).displayData();
+            if (student.callAvgMark()>7) {
+                System.out.println("Sv dat loai kha");
+                student.displayData();
             }
-            if (student.getGpa() == "Trung binh") {
-                studentList.get(i).displayData();
+            if (student.callAvgMark()>5) {
+                System.out.println("Sv dat loai trung binh");
+                student.displayData();
             }
-            if (student.getGpa() == "Yeu") {
-                studentList.get(i).displayData();
+            if (student.callAvgMark()>0) {
+                System.out.println("Sv dat loai yeu");
+                student.displayData();
             }
+            count++;
         }
-    }
+        }
+
 
     public static void passStudent() {
         Student student = new Student();
-        for (int i = 0; i < lenghtStudent; i++) {
+        int count = 0, countJS = 0, countJC = 0, countJW = 0;
+        for (Student studentMark : studentList) {
             for (Float js_mark : student.getListMarkJavaScript()) {
                 if (js_mark >= 5) {
-                    studentList.get(i).displayData();
+                    studentMark.displayData();
                 }
+                countJS++;
             }
             for (Float js_markCore : student.getListMarkJavaCore()) {
                 if (js_markCore >= 5) {
-                    studentList.get(i).displayData();
+                    studentMark.displayData();
                 }
-
+                countJC++;
             }
             for (Float js_markWeb : student.getListMarkJavaWeb()) {
                 if (js_markWeb >= 5) {
-                    studentList.get(i).displayData();
+                    studentMark.displayData();
                 }
+                countJW++;
             }
+            count++;
         }
     }
 
@@ -266,7 +276,7 @@ public class StudentManagement {
         scanner.nextLine();
 
         String updateClassNew = scanner.nextLine();
-        for (int i = 0; i < studentClassList.size(); i++) {
+        for (int i = 0; i < lenghtClass; i++) {
             if (studentClass.getClassId().equals(updateClassNew)) {
                 studentClass.inputData(scanner);
             } else {
@@ -277,36 +287,41 @@ public class StudentManagement {
 
     public static void searchClass(Scanner scanner) {
         System.out.println("Nhập vào tên lớp học muốn tìm:");
-        scanner.nextLine();
         String classNameSearch = scanner.nextLine();
-        scanner.nextLine();
-        StudentClass studentClass = new StudentClass();
-        for (int i = 0; i < lenghtStudent; i++) {
-            if (studentClass.getClassName().startsWith(classNameSearch)) {
-                studentClassList.get(i).displayData();
+        boolean exitClass = false;
+        for (StudentClass studentClass : studentClassList) {
+            if (studentClass.getClassName().contains(classNameSearch)) {
+                studentClass.displayData();
+                exitClass = true;
             }
         }
+        if (!exitClass) {
+            System.out.println("Lop khong co trong danh sach:");
+        }
+
     }
 
+
     public static void statusClassOn() {
-        StudentClass studentClass = new StudentClass();
-        for (int i = 0; i < lenghtClass; i++) {
-            if (studentClass.getClassStatus() == 1) {
-                studentClassList.get(i).displayData();
+        System.out.println("Lop dang hoat dong:");
+        int count = 0;
+        for (StudentClass classOn : studentClassList) {
+            if (classOn.getClassStatus() == 1) {
+                classOn.displayData();
+                count++;
             }
         }
 
     }
 
     public static void xapXepSv() {
-        for (int i = 0; i < lenghtStudent - 1; i++) {
-            for (int j = i + 1; j < lenghtStudent; j++) {
-                if (studentList.get(i).callAvgMark() > studentList.get(j).callAvgMark()) {
-                    studentList.set(i, studentList.get(j));
-                }
+        Collections.sort(studentList, new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return (int) o1.callAvgMark() - (int) o2.callAvgMark();
             }
-        }
-
-
+        });
     }
+
+
 }
