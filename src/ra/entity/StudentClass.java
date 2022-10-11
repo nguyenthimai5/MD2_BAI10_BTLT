@@ -18,7 +18,7 @@ public class StudentClass implements IStudentManagement {
         this.classStatus = classStatus;
     }
 
-    public String getClassId() {
+    public String getClassId(){
         return classId;
     }
 

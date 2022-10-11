@@ -157,7 +157,11 @@ public class Student implements IStudentManagement {
         } while (true);
         System.out.println("Nhap vao gioi tinh sinh vien: ");
         this.sex = Boolean.parseBoolean(sc.nextLine());
-        int cnt = 1;
+        if (sex==true){
+            System.out.println("Nam");
+        }else {
+            System.out.println("Nữ");
+        }
         System.out.println("Nhap cac diem thi javascript: ");
         inputMark(listMarkJavaScript, sc);
         System.out.println("Nhap cac diem thi Java Core: ");
@@ -166,7 +170,11 @@ public class Student implements IStudentManagement {
         inputMark(listMarkJavaWeb, sc);
         System.out.println("Nhap vao trang thai sinh vien: ");
         this.studentStatus = Boolean.parseBoolean(sc.nextLine());
-
+        if (studentStatus==true){
+            System.out.println("Đang học");
+        }else {
+            System.out.println("Đa rời trường");
+        }
     }
 
     public static void inputMark(List<Float> listMark, Scanner sc) {
@@ -185,14 +193,15 @@ public class Student implements IStudentManagement {
             }
         } while (true);
     }
-    public void getGPA(){
-        if (this.avgMark<5){
-            this.gpa="Yeu";
-        }else if(this.avgMark<7){
+
+    public void getGPA() {
+        if (this.avgMark < 5) {
+            this.gpa = "Yeu";
+        } else if (this.avgMark < 7) {
             this.gpa = "Trung binh";
-        }else if(this.avgMark<9){
+        } else if (this.avgMark < 9) {
             this.gpa = "Kha";
-        }else {
+        } else {
             this.gpa = "Gioi";
         }
     }
@@ -201,7 +210,7 @@ public class Student implements IStudentManagement {
         this.avgMark = (listMarkJavaScript.get(listMarkJavaScript.size() - 1) +
                 listMarkJavaCore.get(listMarkJavaCore.size() - 1) +
                 listMarkJavaWeb.get(listMarkJavaWeb.size() - 1)) / 3;
-return this.avgMark;
+        return this.avgMark;
     }
 
     @Override
@@ -224,9 +233,6 @@ return this.avgMark;
         System.out.printf("\n");
         System.out.printf("Diem TB: %f - Xep loai: %s - Trang thai: %b\n", this.avgMark, this.gpa, this.studentStatus);
     }
-
-
-
 
 
 }
